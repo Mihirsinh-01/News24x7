@@ -34,27 +34,14 @@ class _GlobalState extends State<Global> {
 
   Future<void> fetchNews() async {
     response = await http.get(Uri.parse(
-        ("https://newsapi.org/v2/everything?q=bitcoin&apiKey=" + apiKey)));
+        ("https://newsapi.org/v2/everything?q=global&language=en&apiKey=" +
+            apiKey)));
     var data = jsonDecode(response.body);
     response = data;
     if (data['status'] == "ok") {
-      // data["articles"].forEach((article) {
-      //   if (article['description'] != null) {
-      //     NewsDetails nd = NewsDetails(
-      //       title: article['title'],
-      //       author: article['author'],
-      //       description: article['description'],
-      //       urlToImage: article['urlToImage'],
-      //       publishedAt: article['publishedAt'] != null
-      //           ? DateTime.parse(article['publishedAt'])
-      //           : null,
-      //       content: article['content'],
-      //       url: article['url'],
-      //     );
-      //     news.add(nd);
-      //   }
-      // });
-      // nsd = NewsDetails.fromJson(data);
+      setState(() {
+        print("inside setstate");
+      });
     } else {
       throw Exception();
     }
@@ -62,58 +49,67 @@ class _GlobalState extends State<Global> {
 
   openWebview(index) async {
     String url = response.articles[index].url;
-    if (await canLaunch(url))
+    if (await canLaunch(url)) {
       launch(url);
-    else
+      print("Inside Open Web View");
+    } else
       throw 'Can not launch';
   }
 
   @override
   Widget build(BuildContext context) {
     // return Container();
-    return Container(
-        child: response != null
-            ? ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  nsd = NewsDetails.fromJson(response["articles"][index]);
-                  return InkWell(
-                      onTap: () {
-                        openWebview(index);
-                      },
-                      child: Card(
-                          child: nsd.urlToImage != null && nsd.title != null
-                              ? Container(
-                                  padding: EdgeInsets.all(5),
-                                  child: Column(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child:
-                                            Image.network("${nsd.urlToImage}"),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(10),
-                                      ),
-                                      Text(
-                                        "${nsd.title}",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(5),
-                                      ),
-                                      Text("${nsd.description}"),
-                                      Padding(
-                                        padding: EdgeInsets.all(10),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : Container()));
-                },
-              )
-            : Center(child: CircularProgressIndicator()));
+    return RefreshIndicator(
+      child: response != null
+          ? ListView.builder(
+              itemCount: response["articles"].length,
+              itemBuilder: (context, index) {
+                nsd = NewsDetails.fromJson(response["articles"][index]);
+                return InkWell(
+                    onTap: () {
+                      openWebview(index);
+                    },
+                    child: Card(
+                        elevation: 10,
+                        child: nsd.urlToImage != null && nsd.title != null
+                            ? Container(
+                                padding: EdgeInsets.all(5),
+                                child: Column(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.network("${nsd.urlToImage}"),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(10),
+                                    ),
+                                    Text(
+                                      "${nsd.title}",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(5),
+                                    ),
+                                    Text("${nsd.description}"),
+                                    Padding(
+                                      padding: EdgeInsets.all(10),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Container()));
+              },
+            )
+          : Center(child: CircularProgressIndicator()),
+      onRefresh: () {
+        return Future.delayed(Duration(seconds: 1), () {
+          setState(() {
+            print("Inside Refresh");
+          });
+        });
+      },
+    );
   }
 }
