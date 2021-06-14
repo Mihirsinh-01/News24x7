@@ -7,3 +7,4 @@ export 'HealthNews.dart';
 export 'ScienceNews.dart';
 export 'SportsNews.dart';
 export 'TechNews.dart';
+export 'NewsArticle.dart';

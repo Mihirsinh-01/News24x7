@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:news24x7/Screens/SearchNews.dart';
 import 'Screens/all.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,9 +41,9 @@ class _MyHomePageState extends State<MyHomePage> {
           return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                leadingWidth: 100,
+                leadingWidth: 150,
                 leading: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, top: 8.0),
                   child: Text(
                     "News24x7",
                     style: TextStyle(
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 bottom: PreferredSize(
                     child: TabBar(
                         isScrollable: true,
-                        unselectedLabelColor: Colors.white.withOpacity(0.3),
+                        unselectedLabelColor: Colors.white.withOpacity(0.4),
                         indicatorColor: Colors.white,
                         tabs: [
                           Tab(
@@ -119,6 +120,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         ]),
                     preferredSize: Size.fromHeight(30.0)),
                 actions: <Widget>[
+                  IconButton(
+                      icon: Icon(Icons.search_rounded),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return SearchNews();
+                        }));
+                      }),
                   IconButton(
                       icon: Icon(Icons.location_on),
                       onPressed: () {
