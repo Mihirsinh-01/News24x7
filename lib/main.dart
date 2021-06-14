@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
-import 'Screens/TrendingNews.dart';
-import 'Screens/GlobalNews.dart';
+import 'Screens/all.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -41,7 +40,18 @@ class _MyHomePageState extends State<MyHomePage> {
           return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                leading: Icon(Icons.person_outline),
+                leadingWidth: 100,
+                leading: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "News24x7",
+                    style: TextStyle(
+                      color: Colors.yellow,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 title: Text(
                   'DASHBOARD',
                   style: TextStyle(fontSize: 16.0),
@@ -102,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           Tab(
                             child: Row(children: <Widget>[
-                              Icon(Icons.tablet_mac),
+                              Icon(Icons.tablet_android),
                               Text(" Technology")
                             ]),
                           ),
@@ -177,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             final prefs = await SharedPreferences.getInstance();
                             setState(() {
                               int ind = DefaultTabController.of(context).index;
-                              print("Index of Selected Tab is ${ind}");
+                              print("Index of Selected Tab is $ind");
                               prefs.setString("Country", country.countryCode);
                             });
                             print('Select country: ${country.countryCode}');
@@ -200,37 +210,37 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Container(
                     child: Center(
-                      child: Text('Ext 3'),
+                      child: GeneralNews(),
                     ),
                   ),
                   Container(
                     child: Center(
-                      child: Text('Tab 1'),
+                      child: EntNews(),
                     ),
                   ),
                   Container(
                     child: Center(
-                      child: Text('Tab 2'),
+                      child: BusinessNews(),
                     ),
                   ),
                   Container(
                     child: Center(
-                      child: Text('Tab 3'),
+                      child: HealthNews(),
                     ),
                   ),
                   Container(
                     child: Center(
-                      child: Text('Tab 4'),
+                      child: ScienceNews(),
                     ),
                   ),
                   Container(
                     child: Center(
-                      child: Text('Tab 5'),
+                      child: SportsNews(),
                     ),
                   ),
                   Container(
                     child: Center(
-                      child: Text('Tab 6'),
+                      child: TechNews(),
                     ),
                   ),
                 ],
