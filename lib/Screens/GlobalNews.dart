@@ -69,7 +69,9 @@ class _GlobalState extends State<Global> {
 
   @override
   Widget build(BuildContext context) {
-    // return Container();
+    // return Container(
+    //   child: Image.asset('icons/flags/png/de.png', package: 'country_icons'),
+    // );
     return RefreshIndicator(
       child: response != null
           ? ListView.builder(

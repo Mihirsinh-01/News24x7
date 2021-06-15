@@ -5,10 +5,9 @@ class SearchNews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            appBar: AppBar(title: Text('Get Text Field Value')),
-            body: Center(child: GetTextFieldValue())));
+      debugShowCheckedModeBanner: false,
+      home: GetTextFieldValue(),
+    );
   }
 }
 
@@ -18,6 +17,24 @@ class GetTextFieldValue extends StatefulWidget {
 
 class _TextFieldValueState extends State<GetTextFieldValue> {
   final textFieldValueHolder = TextEditingController();
+
+  Widget _buildBar(BuildContext context) {
+    return new AppBar(
+      flexibleSpace: Row(children: <Widget>[
+        SizedBox(height: 200),
+        SizedBox(width: 20),
+        Icon(Icons.search),
+        SizedBox(width: 20),
+        SizedBox(
+            width: 150,
+            child: TextField(
+              controller: textFieldValueHolder,
+              autocorrect: true,
+              decoration: InputDecoration(hintText: 'Enter Some Text Here'),
+            )),
+      ]),
+    );
+  }
 
   String result = '';
 
@@ -30,31 +47,38 @@ class _TextFieldValueState extends State<GetTextFieldValue> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: _buildBar(context),
         body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-              width: 280,
-              padding: EdgeInsets.all(10.0),
-              child: TextField(
-                controller: textFieldValueHolder,
-                autocorrect: true,
-                decoration: InputDecoration(hintText: 'Enter Some Text Here'),
-              )),
-          RaisedButton(
-            onPressed: getTextInputData,
-            color: Colors.blue,
-            textColor: Colors.white,
-            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-            child: Text('Click Here To Get Text Field Entered Data'),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.left,
+            children: <Widget>[
+              Container(
+
+                  // width: MediaQuery.of(context).size.width,
+                  // padding: EdgeInsets.all(5.0),
+                  // child: Row(children: <Widget>[
+                  //   SizedBox(width:20),
+                  //   Icon(Icons.search),
+                  //   SizedBox(width:20),
+                  //   SizedBox(width: 200, child: TextField(controller: textFieldValueHolder,
+                  //     autocorrect: true,
+                  //     decoration: InputDecoration(hintText: 'Enter Some Text Here'),)),
+
+                  // ]),
+                  ),
+              RaisedButton(
+                onPressed: getTextInputData,
+                color: Colors.blue,
+                textColor: Colors.white,
+                // padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                child: Text('Click Here To Get Text Field Entered Data'),
+              ),
+              Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: Text("Entered Text is = $result",
+                      style: TextStyle(fontSize: 20)))
+            ],
           ),
-          Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text("Entered Text is = $result",
-                  style: TextStyle(fontSize: 20)))
-        ],
-      ),
-    ));
+        ));
   }
 }

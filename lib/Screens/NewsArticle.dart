@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'NewsDetails.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NewsArticle extends StatefulWidget {
   final NewsDetails nd;
@@ -79,6 +80,68 @@ class _NewsArticleState extends State<NewsArticle> {
                   textAlign: TextAlign.center, //aligment
                 ),
               ),
+              Divider(color: Colors.black),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      print("Whatsapp Clicked");
+                    },
+                    child: Container(
+                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: Row(
+                          children: [
+                            Text(
+                              "Share To \nWhatsApp",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            FaIcon(
+                              FontAwesomeIcons.whatsapp,
+                              size: 50,
+                              color: Colors.green,
+                            ),
+                          ],
+                        )),
+                  ),
+                  Container(
+                      height: 80,
+                      child: VerticalDivider(
+                        color: Colors.black,
+                        thickness: 1,
+                      )),
+                  InkWell(
+                    onTap: () {
+                      print("Microphone Selected");
+                    },
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.mic,
+                            size: 50,
+                          ),
+                          Text(
+                            "Listen To the\n News",
+                            textAlign: TextAlign.center,
+                            style:
+                                TextStyle(color: Colors.black87, fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),

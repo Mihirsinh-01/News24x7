@@ -3,6 +3,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:news24x7/Screens/SearchNews.dart';
 import 'Screens/all.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:country_icons/country_icons.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,6 +34,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String cC = "in";
+
+  void getCC() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      String temp = prefs.getString("Country").toLowerCase();
+      cC = temp != null ? temp : "IN";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -129,7 +140,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         }));
                       }),
                   IconButton(
-                      icon: Icon(Icons.location_on),
+                      icon: Image.asset('icons/flags/png/$cC.png',
+                          package: 'country_icons'),
+                      // icon: Icon(Icons.location_on),
                       onPressed: () {
                         showCountryPicker(
                           context: context,
@@ -198,6 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               int ind = DefaultTabController.of(context).index;
                               print("Index of Selected Tab is $ind");
                               prefs.setString("Country", country.countryCode);
+                              getCC();
                             });
                             print('Select country: ${country.countryCode}');
                           },
