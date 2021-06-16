@@ -22,6 +22,8 @@ class _NewsArticleState extends State<NewsArticle> {
       throw 'Can not launch';
   }
 
+  playAudio() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,6 +123,7 @@ class _NewsArticleState extends State<NewsArticle> {
                   InkWell(
                     onTap: () {
                       print("Microphone Selected");
+                      playAudio();
                     },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
