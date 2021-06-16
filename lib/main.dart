@@ -202,9 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             'VE',
                             'ZA'
                           ],
-
-                          showPhoneCode:
-                              false, // optional. Shows phone code before the country name.
+                          showPhoneCode: false,
                           onSelect: (Country country) async {
                             final prefs = await SharedPreferences.getInstance();
                             setState(() {
