@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'NewsDetails.dart';
+import 'NewsArticle.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +25,8 @@ class _TextFieldValueState extends State<GetTextFieldValue> {
   String apiKey = 'c8fdb18f039e4c12a7fa4cede6bd7d87';
   TextEditingController _searchQueryController = TextEditingController();
   bool _isSearching = false;
-  String searchQuery = "Search query";
+  String searchQuery = "Search Keywords";
+  String newQuery = "";
   var response;
   NewsDetails nsd;
 
@@ -44,7 +46,7 @@ class _TextFieldValueState extends State<GetTextFieldValue> {
     }
     response = await http.get(Uri.parse(
         ("https://newsapi.org/v2/everything?q=" +
-            searchQuery +
+            newQuery +
             "&language=en&apiKey=" +
             apiKey)));
     var data = jsonDecode(response.body);
@@ -63,6 +65,7 @@ class _TextFieldValueState extends State<GetTextFieldValue> {
 
   Widget _buildSearchField() {
     return TextField(
+      showCursor: true,
       controller: _searchQueryController,
       autofocus: true,
       decoration: InputDecoration(
@@ -99,9 +102,17 @@ class _TextFieldValueState extends State<GetTextFieldValue> {
       _isSearching = true;
       var a = searchQuery.split(" ");
       var st = a.join(" OR ");
-      searchQuery = st;
+      newQuery = st;
       fetchNews();
     });
+  }
+
+  openNewPage(index) {
+    print("Opening New Page");
+    NewsDetails nwd = NewsDetails.fromJson(response["articles"][index]);
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return NewsArticle(nwd);
+    }));
   }
 
   @override
@@ -128,7 +139,7 @@ class _TextFieldValueState extends State<GetTextFieldValue> {
                                 response["articles"][index]);
                             return InkWell(
                                 onTap: () {
-                                  openWebview(index);
+                                  openNewPage(index);
                                 },
                                 child: Card(
                                     child: nsd.urlToImage != null &&

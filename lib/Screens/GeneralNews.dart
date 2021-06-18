@@ -1,7 +1,7 @@
 import 'NewsDetails.dart';
+import 'NewsArticle.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -33,6 +33,14 @@ class _GeneralState extends State<General> {
     fetchNews();
   }
 
+  openNewPage(index) {
+    print("Opening New Page");
+    NewsDetails nwd = NewsDetails.fromJson(response["articles"][index]);
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return NewsArticle(nwd);
+    }));
+  }
+
   Future<void> fetchNews() async {
     final prefs = await SharedPreferences.getInstance();
     if (prefs.getString("Country") == null) {
@@ -56,15 +64,6 @@ class _GeneralState extends State<General> {
     }
   }
 
-  openWebview(index) async {
-    String url = NewsDetails.fromJson(response["articles"][index]).url;
-    if (await canLaunch(url)) {
-      launch(url);
-      print("Inside Open Web View");
-    } else
-      throw 'Can not launch';
-  }
-
   @override
   Widget build(BuildContext context) {
     // return Container();
@@ -77,7 +76,7 @@ class _GeneralState extends State<General> {
                     nsd = NewsDetails.fromJson(response["articles"][index]);
                     return InkWell(
                         onTap: () {
-                          openWebview(index);
+                          openNewPage(index);
                         },
                         child: Card(
                             child: nsd.urlToImage != null && nsd.title != null

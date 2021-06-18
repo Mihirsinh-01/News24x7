@@ -3,7 +3,6 @@ import 'package:country_picker/country_picker.dart';
 import 'package:news24x7/Screens/SearchNews.dart';
 import 'Screens/all.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:country_icons/country_icons.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,27 +45,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    getCC();
     return DefaultTabController(
         length: 9,
         child: Builder(builder: (BuildContext context) {
           return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                leadingWidth: 150,
-                leading: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-                  child: Text(
-                    "News24x7",
-                    style: TextStyle(
-                      color: Colors.yellow,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
                 title: Text(
-                  'DASHBOARD',
-                  style: TextStyle(fontSize: 16.0),
+                  "News24x7",
+                  style: TextStyle(
+                    color: Colors.yellow,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 bottom: PreferredSize(
                     child: TabBar(

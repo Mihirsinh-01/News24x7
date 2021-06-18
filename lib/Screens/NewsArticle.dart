@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'NewsDetails.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class NewsArticle extends StatefulWidget {
   final NewsDetails nd;
@@ -22,7 +23,28 @@ class _NewsArticleState extends State<NewsArticle> {
       throw 'Can not launch';
   }
 
-  playAudio() {}
+  String _truncateChars(s) {
+    var c = 0;
+    for (int i = s.length - 1; i >= 0; i--) {
+      if (s[i] != "[") {
+        c = c + 1;
+      } else {
+        c = c + 1;
+        break;
+      }
+    }
+    String result = s.substring(0, s.length - c);
+    return result;
+  }
+
+  playAudio() async {
+    final FlutterTts flutterTts = FlutterTts();
+    print(await flutterTts.getLanguages);
+    await flutterTts.setSpeechRate(1);
+    await flutterTts.setPitch(1);
+    await flutterTts
+        .speak(nd.description + "        " + _truncateChars(nd.content));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +86,7 @@ class _NewsArticleState extends State<NewsArticle> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  nd.content,
+                  _truncateChars(nd.content),
                   style: TextStyle(
                     wordSpacing: 2,
                     fontSize: 20,
@@ -82,68 +104,73 @@ class _NewsArticleState extends State<NewsArticle> {
                   textAlign: TextAlign.center, //aligment
                 ),
               ),
-              Divider(color: Colors.black),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      print("Whatsapp Clicked");
-                    },
-                    child: Container(
-                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                        width: MediaQuery.of(context).size.width / 2,
+              // Divider(color: Colors.black),/
+              Container(
+                color: Colors.blue,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Share.share('View Complete Article at ${nd.url}',
+                            subject: 'Hey Just Go Through the Article !!');
+                        print("Whatsapp Clicked");
+                      },
+                      child: Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          width: (MediaQuery.of(context).size.width / 2) - 40,
+                          child: Row(
+                            children: [
+                              Text("Share this \nArticle",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20)),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Icon(
+                                Icons.share,
+                                color: Colors.white,
+                                size: 35,
+                              )
+                            ],
+                          )),
+                    ),
+                    Container(
+                        height: 60,
+                        child: VerticalDivider(
+                          color: Colors.black,
+                          thickness: 1,
+                        )),
+                    InkWell(
+                      onTap: () {
+                        print("Microphone Selected");
+                        playAudio();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: Row(
                           children: [
-                            Text(
-                              "Share To \nWhatsApp",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
+                            Icon(
+                              Icons.mic,
+                              size: 40,
+                              color: Colors.white,
                             ),
                             SizedBox(
-                              width: 20,
+                              width: 10,
                             ),
-                            FaIcon(
-                              FontAwesomeIcons.whatsapp,
-                              size: 50,
-                              color: Colors.green,
+                            Text(
+                              "Listen To the\n News",
+                              textAlign: TextAlign.center,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
                             ),
                           ],
-                        )),
-                  ),
-                  Container(
-                      height: 80,
-                      child: VerticalDivider(
-                        color: Colors.black,
-                        thickness: 1,
-                      )),
-                  InkWell(
-                    onTap: () {
-                      print("Microphone Selected");
-                      playAudio();
-                    },
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.mic,
-                            size: 50,
-                          ),
-                          Text(
-                            "Listen To the\n News",
-                            textAlign: TextAlign.center,
-                            style:
-                                TextStyle(color: Colors.black87, fontSize: 20),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),
