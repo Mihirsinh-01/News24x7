@@ -12,3 +12,9 @@ A News Application created in Flutter.
 <li>A speaking bot which narrates the news for you.</li>
 <li>Search news using keywords.</li>
 </ul>
+
+# Demo GIFs
+Below are some GIFs displaying complete working of the application.
+![](gif/1.gif)
+![](gif/2.gif)
+![](gif/3.gif)
