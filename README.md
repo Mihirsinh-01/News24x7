@@ -1,7 +1,8 @@
-# news24x7
+# News24x7
 
 A News Application created in Flutter.
-
+# You can dowload .apk using below link
+[News24x7](https://www.mediafire.com/file/4fse6jkzm9si97f/News24x7.apk/file)
 # Functionalities
 
 <ul>
